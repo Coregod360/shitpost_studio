@@ -1,11 +1,25 @@
 {
-  "name": "shitpost-studio",
-  "version": "1.0.0",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron ."
-  },
-  "devDependencies": {
-    "electron": "^25.1.0"
-  }
+	"name": "shitpost-studio",
+	"version": "1.0.0",
+	"main": "core/main.js",
+	"scripts": {
+		"start": "npm run build && electron .",
+		"build": "rollup -c",
+		"dev": "rollup -c -w"
+	},
+	"devDependencies": {
+		"@rollup/plugin-commonjs": "^17.0.0",
+		"@rollup/plugin-node-resolve": "^11.0.0",
+		"electron": "^25.1.0",
+		"rollup": "^2.3.4",
+		"rollup-plugin-css-only": "^3.1.0",
+		"rollup-plugin-livereload": "^2.0.0",
+		"rollup-plugin-svelte": "^7.0.0",
+		"rollup-plugin-terser": "^7.0.0",
+		"sirv-cli": "^2.0.0",
+		"svelte": "^3.0.0"
+	},
+	"dependencies": {
+		"electron-serve": "^1.1.0"
+	}
 }
