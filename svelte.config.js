@@ -1,4 +1,4 @@
-const preprocess = require("svelte-preprocess");
+const preprocess = require("svelte-preprocess")
 
 const config = {
   preprocess: [
@@ -6,6 +6,6 @@ const config = {
       postcss: true,
     }),
   ],
-};
+}
 
-module.exports = config;
+module.exports = config

@@ -4,9 +4,9 @@ import resolve from '@rollup/plugin-node-resolve'
 import livereload from 'rollup-plugin-livereload'
 import { terser } from 'rollup-plugin-terser'
 import css from 'rollup-plugin-css-only'
-import postcss from 'rollup-plugin-postcss';
-import tailwindcss from 'tailwindcss';
-const tailwindConfig = require('./tailwind.config.cjs');
+import sveltePreprocess, { scss } from 'svelte-preprocess'
+
+const tailwindConfig = require('./tailwind.config.js')
 
 
 const production = !process.env.ROLLUP_WATCH
@@ -35,54 +35,26 @@ function serve() {
 export default {
 	input: 'ui/entry.js',
 	output: {
-		sourcemap: true,
+		sourcemap: false,
 		format: 'iife',
 		name: 'app',
 		file: 'dist/bundle.js'
 	},
 	plugins: [
 		svelte({
+			preprocess: sveltePreprocess({ postcss: true }, scss()),
 			compilerOptions: {
-				// enable run-time checks when not in production
 				dev: !production
-			}
+			},
 		}),
-		postcss({
-			config: {
-			  path: './postcss.config.js',
-			},
-			extensions: ['.css'],
-			minimize: true,
-			inject: {
-			  insertAt: 'top',
-			},
-			plugins: [tailwindcss(tailwindConfig)],
-		  }),
-		// we'll extract any component CSS out into
-		// a separate file - better for performance
 		css({ output: 'bundle.css' }),
-
-		// If you have external dependencies installed from
-		// npm, you'll most likely need these plugins. In
-		// some cases you'll need additional configuration -
-		// consult the documentation for details:
-		// https://github.com/rollup/plugins/tree/master/packages/commonjs
 		resolve({
 			browser: true,
 			dedupe: ['svelte']
 		}),
 		commonjs(),
-
-		// In dev mode, call `npm run start` once
-		// the bundle has been generated
 		!production && serve(),
-
-		// Watch the `public` directory and refresh the
-		// browser on changes when not in production
 		!production && livereload('public'),
-
-		// If we're building for production (npm run build
-		// instead of npm run dev), minify
 		production && terser()
 	],
 	watch: {

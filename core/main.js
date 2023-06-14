@@ -8,11 +8,13 @@ app.whenReady().then(
 		const window = new BrowserWindow({
 			width: 530,
 			height: 290,
-			autoHideMenuBar: true
+			autoHideMenuBar: true,
+			
 		})
 
 		await serveDist(window)
 
 		window.loadURL('app://-')
+		window.webContents.openDevTools()
 	}
 )
