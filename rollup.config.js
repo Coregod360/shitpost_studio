@@ -4,6 +4,10 @@ import resolve from '@rollup/plugin-node-resolve'
 import livereload from 'rollup-plugin-livereload'
 import { terser } from 'rollup-plugin-terser'
 import css from 'rollup-plugin-css-only'
+import postcss from 'rollup-plugin-postcss';
+import tailwindcss from 'tailwindcss';
+const tailwindConfig = require('./tailwind.config.cjs');
+
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -43,6 +47,17 @@ export default {
 				dev: !production
 			}
 		}),
+		postcss({
+			config: {
+			  path: './postcss.config.js',
+			},
+			extensions: ['.css'],
+			minimize: true,
+			inject: {
+			  insertAt: 'top',
+			},
+			plugins: [tailwindcss(tailwindConfig)],
+		  }),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
 		css({ output: 'bundle.css' }),
